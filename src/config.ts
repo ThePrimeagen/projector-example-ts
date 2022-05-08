@@ -43,11 +43,29 @@ function getConfig() {
 }
 
 export default function projector(opts: ProjectorOpts): ProjectorConfig {
-    // TODO: Put the validation in here
+    const operation = getOperation(opts.arguments);
+    const args = getTerms(opts.arguments);
+    switch (operation) {
+    case Operation.Add:
+        if (args.length !== 2) {
+            throw new Error(`Expected 2 arguments to "add" but received ${args.length}`);
+        }
+        break;
+    case Operation.Remove:
+        if (args.length !== 1) {
+            throw new Error(`Expected 1 arguments to "remove" but received ${args.length}`);
+        }
+        break;
+    case Operation.Print:
+        if (args.length !== 1) {
+            throw new Error(`Expected 1 arguments to "print" but received ${args.length}`);
+        }
+        break;
+    }
     return {
         pwd: opts.pwd || process.cwd(),
         config: opts.config || getConfig(),
-        operation: getOperation(opts.arguments),
-        arguments: getTerms(opts.arguments),
+        operation,
+        arguments: args,
     };
 }
