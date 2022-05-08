@@ -7,7 +7,7 @@ export enum Operation {
     Remove
 }
 
-export type Projector = {
+export type ProjectorConfig = {
     pwd: string;
     config: string;
     operation: Operation;
@@ -42,7 +42,8 @@ function getConfig() {
     return path.join(configHome, "projector", "projector.json");
 }
 
-export default function projector(opts: ProjectorOpts): Projector {
+export default function projector(opts: ProjectorOpts): ProjectorConfig {
+    // TODO: Put the validation in here
     return {
         pwd: opts.pwd || process.cwd(),
         config: opts.config || getConfig(),
